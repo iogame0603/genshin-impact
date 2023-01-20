@@ -11,7 +11,6 @@ n_cafe_url = "https://cafe.naver.com/genshin"
 driver = webdriver.Chrome(options=options)
 
 def start():
-    # notice_list_copy = []
     notice_list = []
     link_list = []
 
