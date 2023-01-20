@@ -1,13 +1,15 @@
 import genshin
 import asyncio
 from win10toast import ToastNotifier
+import socket
+import time
 
 # windows toast
 toast = ToastNotifier()
 
 # set cookies
 cookies = genshin.utility.get_browser_cookies(browser="chrome")
-client = genshin.Client(cookies)
+client = genshin.Client(cookies, lang="ko-kr")
 
 async def daily_reward():
     try:
@@ -21,6 +23,7 @@ async def daily_reward():
 
     except genshin.AlreadyClaimed:
         return
+
     except genshin.InvalidCookies:
         toast.show_toast(
             title = "원신 출석체크 알림",
@@ -29,4 +32,18 @@ async def daily_reward():
             threaded = True
         )
 
-asyncio.run(daily_reward())
+i: int = 0
+while True:
+    # internet connect
+    ipadd = socket.gethostbyname(socket.gethostname())
+
+    if i == 0:
+        print("인터넷 연결 확인중..")
+        i += 1
+
+    if ipadd != "127.0.0.1":
+        time.sleep(5)
+        asyncio.run(daily_reward())
+        break
+
+time.sleep(2)
