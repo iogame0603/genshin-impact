@@ -16,7 +16,7 @@ async def daily_reward():
         reward = await client.claim_daily_reward(game="genshin")
         toast.show_toast(
             title = "원신 출석체크 알림",
-            msg = f"{reward.name} {reward.amount}개",
+            msg = f"{reward.name} x{reward.amount}",
             duration = 3,
             threaded = True
         )
@@ -31,6 +31,8 @@ async def daily_reward():
             duration = 3,
             threaded = True
         )
+        time.sleep(5)
+        asyncio.run(daily_reward())
 
 i: int = 0
 while True:
